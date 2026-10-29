@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      - PORT=3020
+      - PORT=3030
     expose:
-      - "3020"
+      - "3030"
     # Jika Nginx sekolah berada di host VPS yang sama (di luar Dokploy),
     # aktifkan bagian ports di bawah ini agar Nginx sekolah bisa proxy_pass ke 127.0.0.1:3000:
     # ports:
