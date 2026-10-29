@@ -1,0 +1,25 @@
+# Dependencies & Build Output
+node_modules
+dist
+dist-ssr
+
+# Git & Editor
+.git
+.gitignore
+.vscode
+.idea
+
+# Dokumen Konteks & File HTML Ekspor Lama
+*.md
+lanjut_*.html
+
+# Logs & Environment
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.env
+.env.*
+.DS_Store
+Thumbs.db
+
