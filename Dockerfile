@@ -1,7 +1,8 @@
 # ============================================================================
-# Stage 1: Build React + Vite Application
+# Node.js Production Image (Tanpa Nginx di dalam Container)
+# Reverse proxy / Nginx diatur dari luar (Server Sekolah / Dokploy)
 # ============================================================================
-FROM node:20-alpine AS builder
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -18,21 +19,11 @@ COPY src ./src
 # Build produksi ke folder /app/dist
 RUN npm run build
 
-# ============================================================================
-# Stage 2: Production Web Server (Nginx Alpine)
-# ============================================================================
-FROM nginx:1.27-alpine AS production
+ENV PORT=3020
 
-# Salin konfigurasi Nginx khusus SPA (History API routing fallback)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Salin hasil build statis dari stage builder
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-EXPOSE 80
+EXPOSE 3020
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget -qO- http://127.0.0.1/healthz || exit 1
+  CMD wget -qO- http://127.0.0.1:${PORT:-3020}/ || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
-
+CMD ["sh", "-c", "npm run preview -- --host 0.0.0.0 --port ${PORT:-3000}"]
